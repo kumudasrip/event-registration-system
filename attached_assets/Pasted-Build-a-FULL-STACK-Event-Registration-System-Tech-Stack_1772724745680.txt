@@ -1,0 +1,189 @@
+Build a FULL STACK Event Registration System.
+
+Tech Stack:
+Frontend: React (Vite) + TailwindCSS
+Backend: Node.js + Express
+Database: MongoDB (Mongoose)
+
+Project Requirements:
+
+=====================
+FRONTEND FEATURES
+=====================
+
+1. Registration Page
+Create a form with the following fields:
+
+- Name
+- Email
+- College
+- Year of Study
+- Domain (dropdown: Tech / Non-Tech)
+- Why are you interested? (short text)
+
+Validation:
+- All fields required
+- Email format validation
+- Show user-friendly error messages
+- Disable submit button if validation fails
+
+When submitted:
+- Send POST request to backend API `/register`
+- Redirect to Confirmation Page
+
+2. Confirmation Page
+Display:
+- Submitted details
+- Unique Registration ID returned by backend
+- Success message
+
+3. Admin Login Page
+Admin should login using:
+- email
+- password
+
+Backend should return JWT token.
+
+4. Admin Dashboard
+After login show:
+
+A. Table of Registrations
+Columns:
+- Name
+- Email
+- College
+- Year
+- Domain
+- Registration ID
+- Created Date
+
+Features:
+- Search by name or email
+- Filter by college
+- Filter by domain
+
+B. Analytics Section
+Display:
+- Total registrations
+- Tech vs Non-Tech percentage
+- Daily registrations graph
+
+Use Chart.js or Recharts for graphs.
+
+=====================
+BACKEND FEATURES
+=====================
+
+Build REST APIs:
+
+POST /register
+- Register a user
+- Prevent duplicate emails
+- Generate unique registration ID
+- Save to database
+
+GET /registrations
+- Return all registrations
+- Support query filters:
+  - college
+  - domain
+  - search (name/email)
+
+GET /analytics
+Return:
+- total registrations
+- tech vs non-tech count
+- registrations per day
+
+POST /admin/login
+- Authenticate admin
+- Return JWT token
+
+Protect admin routes using JWT middleware.
+
+=====================
+DATABASE DESIGN
+=====================
+
+Users Collection (Admin)
+- id
+- email
+- password (hashed)
+- role
+
+Registrations Collection
+- id
+- registrationId
+- name
+- email
+- college
+- year
+- domain
+- interestAnswer
+- createdAt
+
+=====================
+EXTRA FEATURES
+=====================
+
+- Proper server-side validation
+- Proper HTTP status codes
+- Logging middleware
+- Clean folder structure
+
+=====================
+PROJECT STRUCTURE
+=====================
+
+backend/
+  controllers/
+  routes/
+  models/
+  middleware/
+  config/
+  server.js
+
+frontend/
+  src/
+    components/
+    pages/
+      Register.jsx
+      Confirmation.jsx
+      AdminLogin.jsx
+      Dashboard.jsx
+    services/api.js
+
+=====================
+DELIVERABLES
+=====================
+
+1. Fully working project
+2. README.md containing:
+   - Architecture explanation
+   - State management approach
+   - Component structure
+   - API endpoints
+3. Instructions to run locally
+4. Seed admin user
+
+=====================
+UI REQUIREMENTS
+=====================
+
+Use a clean modern UI with Tailwind:
+- centered form card
+- responsive layout
+- simple dashboard design
+- charts for analytics
+
+Make sure the project runs using:
+
+Backend:
+`npm install`
+`npm run dev`
+
+Frontend:
+`npm install`
+`npm run dev`
+
+Return the complete codebase.
