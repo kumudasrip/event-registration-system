@@ -11,7 +11,7 @@ export function AdminNav() {
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex gap-6 items-center">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-display font-bold text-xl text-primary">Nexus Admin</span>
+            <span className="font-display font-bold text-xl text-primary">Zenith Admin</span>
           </Link>
           <nav className="hidden md:flex gap-6">
             <Link 

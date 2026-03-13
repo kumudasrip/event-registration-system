@@ -39,7 +39,7 @@ export default function Login() {
             <Shield className="w-6 h-6 text-primary" />
           </div>
           <CardTitle className="text-2xl font-display">Admin Portal</CardTitle>
-          <CardDescription>Sign in to manage event registrations</CardDescription>
+          <CardDescription>Sign in to manage Zenith 2026 registrations</CardDescription>
         </CardHeader>
         <CardContent className="pb-8">
           <Form {...form}>

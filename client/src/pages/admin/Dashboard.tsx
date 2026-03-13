@@ -9,9 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Users, Code, Lightbulb, Search, Filter } from "lucide-react";
+import { Users, Code, Lightbulb, Search, Filter, Building2 } from "lucide-react";
 import { format } from "date-fns";
-import { 
+import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
 } from 'recharts';
@@ -22,7 +22,8 @@ export default function Dashboard() {
 
   const [search, setSearch] = useState("");
   const [domainFilter, setDomainFilter] = useState<string>("All");
-  
+  const [collegeFilter, setCollegeFilter] = useState("");
+
   useEffect(() => {
     if (!isAuthenticated()) {
       setLocation("/admin/login");
@@ -30,10 +31,11 @@ export default function Dashboard() {
   }, [isAuthenticated, setLocation]);
 
   const { data: analytics, isLoading: analyticsLoading } = useAnalytics();
-  
+
   const { data: registrations, isLoading: regsLoading } = useAdminRegistrations({
     search: search || undefined,
     domain: domainFilter !== "All" ? (domainFilter as 'Tech' | 'Non-Tech') : undefined,
+    college: collegeFilter || undefined,
   });
 
   const COLORS = ['hsl(var(--primary))', 'hsl(var(--accent))'];
@@ -43,11 +45,11 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-muted/20 font-sans pb-12">
       <AdminNav />
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <div>
           <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">Overview</h1>
-          <p className="text-muted-foreground mt-1">Real-time event registration analytics and management.</p>
+          <p className="text-muted-foreground mt-1">Real-time Zenith 2026 registration analytics and management.</p>
         </div>
 
         {/* Analytics Section */}
@@ -61,35 +63,35 @@ export default function Dashboard() {
           <div className="space-y-6 animate-in fade-in duration-500">
             {/* Stat Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="shadow-sm border-border/50 hover:shadow-md transition-shadow">
-                <CardContent className="p-6 flex items-center justify-between">
+              <Card className="shadow-sm border-border/50">
+                <CardContent className="p-6 flex items-center justify-between gap-1">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground mb-1">Total Registrations</p>
                     <p className="text-4xl font-display font-bold">{analytics.totalRegistrations}</p>
                   </div>
-                  <div className="bg-primary/10 p-4 rounded-full">
+                  <div className="bg-primary/15 p-4 rounded-full shrink-0">
                     <Users className="w-6 h-6 text-primary" />
                   </div>
                 </CardContent>
               </Card>
-              <Card className="shadow-sm border-border/50 hover:shadow-md transition-shadow">
-                <CardContent className="p-6 flex items-center justify-between">
+              <Card className="shadow-sm border-border/50">
+                <CardContent className="p-6 flex items-center justify-between gap-1">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Tech Domain</p>
+                    <p className="text-sm font-medium text-muted-foreground mb-1">Technical</p>
                     <p className="text-4xl font-display font-bold text-primary">{analytics.domainSplit.tech}</p>
                   </div>
-                  <div className="bg-primary/10 p-4 rounded-full">
+                  <div className="bg-primary/15 p-4 rounded-full shrink-0">
                     <Code className="w-6 h-6 text-primary" />
                   </div>
                 </CardContent>
               </Card>
-              <Card className="shadow-sm border-border/50 hover:shadow-md transition-shadow">
-                <CardContent className="p-6 flex items-center justify-between">
+              <Card className="shadow-sm border-border/50">
+                <CardContent className="p-6 flex items-center justify-between gap-1">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Non-Tech Domain</p>
+                    <p className="text-sm font-medium text-muted-foreground mb-1">Non-Technical</p>
                     <p className="text-4xl font-display font-bold text-accent">{analytics.domainSplit.nonTech}</p>
                   </div>
-                  <div className="bg-accent/10 p-4 rounded-full">
+                  <div className="bg-accent/15 p-4 rounded-full shrink-0">
                     <Lightbulb className="w-6 h-6 text-accent" />
                   </div>
                 </CardContent>
@@ -107,16 +109,16 @@ export default function Dashboard() {
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={analytics.dailyRegistrations} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
-                        <XAxis 
-                          dataKey="date" 
-                          stroke="hsl(var(--muted-foreground))" 
-                          fontSize={12} 
-                          tickLine={false} 
-                          axisLine={false} 
+                        <XAxis
+                          dataKey="date"
+                          stroke="hsl(var(--muted-foreground))"
+                          fontSize={12}
+                          tickLine={false}
+                          axisLine={false}
                           tickFormatter={(val) => format(new Date(val), 'MMM d')}
                         />
                         <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
-                        <RechartsTooltip 
+                        <RechartsTooltip
                           cursor={{ fill: 'hsl(var(--muted)/0.5)' }}
                           contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))', backgroundColor: 'hsl(var(--card))', color: 'hsl(var(--foreground))' }}
                           labelFormatter={(val) => format(new Date(val), 'MMMM d, yyyy')}
@@ -127,7 +129,7 @@ export default function Dashboard() {
                   </div>
                 </CardContent>
               </Card>
-              
+
               <Card className="shadow-sm border-border/50">
                 <CardHeader>
                   <CardTitle className="font-display text-lg">Domain Split</CardTitle>
@@ -138,8 +140,8 @@ export default function Dashboard() {
                       <PieChart>
                         <Pie
                           data={[
-                            { name: 'Tech', value: analytics.domainSplit.tech },
-                            { name: 'Non-Tech', value: analytics.domainSplit.nonTech }
+                            { name: 'Technical', value: analytics.domainSplit.tech },
+                            { name: 'Non-Technical', value: analytics.domainSplit.nonTech }
                           ]}
                           cx="50%"
                           cy="45%"
@@ -148,12 +150,12 @@ export default function Dashboard() {
                           paddingAngle={5}
                           dataKey="value"
                         >
-                          {[0, 1].map((entry, index) => (
+                          {[0, 1].map((_, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <RechartsTooltip 
-                          contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))' }}
+                        <RechartsTooltip
+                          contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))', backgroundColor: 'hsl(var(--card))' }}
                           itemStyle={{ color: 'hsl(var(--foreground))' }}
                         />
                         <Legend verticalAlign="bottom" height={36} iconType="circle" />
@@ -168,37 +170,51 @@ export default function Dashboard() {
 
         {/* Data Table Section */}
         <Card className="shadow-sm border-border/50 overflow-hidden">
-          <div className="p-6 border-b border-border bg-card flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+          <div className="p-6 border-b border-border bg-card flex flex-col gap-4">
             <h2 className="text-xl font-bold font-display">Attendee List</h2>
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <div className="relative">
+            <div className="flex flex-wrap gap-3">
+              {/* Search */}
+              <div className="relative flex-1 min-w-[200px]">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Search names or emails..." 
-                  className="pl-9 w-full sm:w-[250px]"
+                <Input
+                  placeholder="Search names or emails..."
+                  className="pl-9"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
+                  data-testid="input-search"
                 />
               </div>
-              <div className="relative flex items-center">
+              {/* College Filter */}
+              <div className="relative flex-1 min-w-[180px]">
+                <Building2 className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground z-10" />
+                <Input
+                  placeholder="Filter by college..."
+                  className="pl-9"
+                  value={collegeFilter}
+                  onChange={(e) => setCollegeFilter(e.target.value)}
+                  data-testid="input-college-filter"
+                />
+              </div>
+              {/* Domain Filter */}
+              <div className="relative flex items-center min-w-[160px]">
                 <Filter className="absolute left-2.5 z-10 h-4 w-4 text-muted-foreground pointer-events-none" />
                 <Select value={domainFilter} onValueChange={setDomainFilter}>
-                  <SelectTrigger className="w-full sm:w-[150px] pl-9">
+                  <SelectTrigger className="pl-9 w-full" data-testid="select-domain-filter">
                     <SelectValue placeholder="Domain Filter" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="All">All Domains</SelectItem>
-                    <SelectItem value="Tech">Tech</SelectItem>
-                    <SelectItem value="Non-Tech">Non-Tech</SelectItem>
+                    <SelectItem value="Tech">Technical</SelectItem>
+                    <SelectItem value="Non-Tech">Non-Technical</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
           </div>
-          
+
           <div className="overflow-x-auto">
             <Table>
-              <TableHeader className="bg-muted/50">
+              <TableHeader className="bg-muted/40">
                 <TableRow>
                   <TableHead className="w-[120px]">ID</TableHead>
                   <TableHead>Attendee</TableHead>
@@ -225,7 +241,7 @@ export default function Dashboard() {
                   </TableRow>
                 ) : (
                   registrations.map((reg) => (
-                    <TableRow key={reg.id} className="hover:bg-muted/30 transition-colors group">
+                    <TableRow key={reg.id} className="hover:bg-muted/30 transition-colors group" data-testid={`row-registration-${reg.id}`}>
                       <TableCell className="font-mono text-xs text-muted-foreground group-hover:text-foreground transition-colors">
                         {reg.registrationId}
                       </TableCell>
@@ -238,11 +254,11 @@ export default function Dashboard() {
                       </TableCell>
                       <TableCell>{reg.year}</TableCell>
                       <TableCell>
-                        <Badge 
-                          variant="secondary" 
-                          className={reg.domain === 'Tech' ? 'bg-primary/10 text-primary hover:bg-primary/20 border-0' : 'bg-accent/10 text-accent hover:bg-accent/20 border-0'}
+                        <Badge
+                          variant="secondary"
+                          className={reg.domain === 'Tech' ? 'bg-primary/15 text-primary border-0' : 'bg-accent/15 text-accent border-0'}
                         >
-                          {reg.domain}
+                          {reg.domain === 'Tech' ? 'Technical' : 'Non-Technical'}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right text-sm text-muted-foreground whitespace-nowrap">

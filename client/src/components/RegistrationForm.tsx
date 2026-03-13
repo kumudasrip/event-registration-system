@@ -24,7 +24,7 @@ export function RegistrationForm() {
       email: "",
       college: "",
       year: "",
-      domain: "Tech",
+      domain: undefined as any,
       interestAnswer: "",
     },
   });
@@ -32,7 +32,6 @@ export function RegistrationForm() {
   function onSubmit(data: RegistrationInput) {
     createRegistration.mutate(data, {
       onSuccess: (result) => {
-        // Store result in sessionStorage to display on success page
         sessionStorage.setItem("lastRegistration", JSON.stringify(result));
         setLocation("/success");
       },
@@ -47,11 +46,11 @@ export function RegistrationForm() {
   }
 
   return (
-    <Card className="shadow-2xl border-white/20 backdrop-blur-sm bg-card/95 w-full">
+    <Card className="shadow-2xl border-border/40 backdrop-blur-sm bg-card/95 w-full">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-display">Secure your spot</CardTitle>
+        <CardTitle className="text-2xl font-display">Register for Zenith 2026</CardTitle>
         <CardDescription>
-          Fill out the form below to register for Nexus 2025.
+          Fill out the form below to secure your spot at the event.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -63,9 +62,9 @@ export function RegistrationForm() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>Full Name <span className="text-destructive">*</span></FormLabel>
                     <FormControl>
-                      <Input placeholder="John Doe" {...field} className="focus-visible:ring-primary/20" />
+                      <Input placeholder="John Doe" {...field} data-testid="input-name" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -76,9 +75,9 @@ export function RegistrationForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email Address</FormLabel>
+                    <FormLabel>Email Address <span className="text-destructive">*</span></FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="john@university.edu" {...field} className="focus-visible:ring-primary/20" />
+                      <Input type="email" placeholder="john@university.edu" {...field} data-testid="input-email" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -92,9 +91,9 @@ export function RegistrationForm() {
                 name="college"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>College / University</FormLabel>
+                    <FormLabel>College / University <span className="text-destructive">*</span></FormLabel>
                     <FormControl>
-                      <Input placeholder="Stanford University" {...field} className="focus-visible:ring-primary/20" />
+                      <Input placeholder="e.g. MIT" {...field} data-testid="input-college" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -105,10 +104,10 @@ export function RegistrationForm() {
                 name="year"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Year of Study</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormLabel>Year of Study <span className="text-destructive">*</span></FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="focus-visible:ring-primary/20">
+                        <SelectTrigger data-testid="select-year">
                           <SelectValue placeholder="Select year" />
                         </SelectTrigger>
                       </FormControl>
@@ -132,16 +131,16 @@ export function RegistrationForm() {
               name="domain"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Preferred Domain</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormLabel>Domain <span className="text-destructive">*</span></FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
-                      <SelectTrigger className="focus-visible:ring-primary/20">
+                      <SelectTrigger data-testid="select-domain">
                         <SelectValue placeholder="Select domain" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="Tech">Technical (Coding, Data, AI)</SelectItem>
-                      <SelectItem value="Non-Tech">Non-Technical (Design, Management)</SelectItem>
+                      <SelectItem value="Tech">Technical</SelectItem>
+                      <SelectItem value="Non-Tech">Non-Technical</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -154,12 +153,13 @@ export function RegistrationForm() {
               name="interestAnswer"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Why are you interested in Nexus 2025?</FormLabel>
+                  <FormLabel>Why are you interested in Zenith 2026? <span className="text-destructive">*</span></FormLabel>
                   <FormControl>
-                    <Textarea 
-                      placeholder="Tell us what you hope to learn or achieve..." 
-                      className="resize-none h-24 focus-visible:ring-primary/20" 
-                      {...field} 
+                    <Textarea
+                      placeholder="Describe in short"
+                      className="resize-none h-24"
+                      {...field}
+                      data-testid="textarea-interest"
                     />
                   </FormControl>
                   <FormMessage />
@@ -167,10 +167,11 @@ export function RegistrationForm() {
               )}
             />
 
-            <Button 
-              type="submit" 
-              className="w-full h-12 text-base font-semibold group bg-gradient-to-r from-primary to-primary/80 hover:to-primary hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
+            <Button
+              type="submit"
+              className="w-full text-base font-semibold group"
               disabled={createRegistration.isPending}
+              data-testid="button-submit"
             >
               {createRegistration.isPending ? (
                 <>
