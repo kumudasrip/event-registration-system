@@ -43,81 +43,81 @@ export default function Dashboard() {
   if (!isAuthenticated()) return null;
 
   return (
-    <div className="min-h-screen bg-muted/20 font-sans pb-12">
+    <div className="min-h-screen bg-background font-sans pb-12">
       <AdminNav />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         <div>
-          <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">Overview</h1>
-          <p className="text-muted-foreground mt-1">Real-time Zenith 2026 registration analytics and management.</p>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Overview</h1>
+          <p className="text-muted-foreground mt-1 text-sm sm:text-base">Real-time Zenith 2026 registration analytics and management.</p>
         </div>
 
         {/* Analytics Section */}
         {analyticsLoading || !analytics ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 w-full rounded-xl" />)}
-            <Skeleton className="col-span-1 md:col-span-2 h-[350px] w-full rounded-xl" />
-            <Skeleton className="h-[350px] w-full rounded-xl" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[1, 2, 3].map(i => <Skeleton key={i} className="h-28 w-full rounded-xl" />)}
+            <Skeleton className="col-span-1 sm:col-span-2 h-[280px] w-full rounded-xl" />
+            <Skeleton className="h-[280px] w-full rounded-xl" />
           </div>
         ) : (
-          <div className="space-y-6 animate-in fade-in duration-500">
+          <div className="space-y-4 animate-in fade-in duration-500">
             {/* Stat Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <Card className="shadow-sm border-border/50">
-                <CardContent className="p-6 flex items-center justify-between gap-1">
+                <CardContent className="p-5 flex items-center justify-between gap-2">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Total Registrations</p>
-                    <p className="text-4xl font-display font-bold">{analytics.totalRegistrations}</p>
+                    <p className="text-xs font-medium text-muted-foreground mb-1">Total Registrations</p>
+                    <p className="text-3xl sm:text-4xl font-display font-bold">{analytics.totalRegistrations}</p>
                   </div>
-                  <div className="bg-primary/15 p-4 rounded-full shrink-0">
-                    <Users className="w-6 h-6 text-primary" />
+                  <div className="bg-primary/15 p-3 rounded-full shrink-0">
+                    <Users className="w-5 h-5 text-primary" />
                   </div>
                 </CardContent>
               </Card>
               <Card className="shadow-sm border-border/50">
-                <CardContent className="p-6 flex items-center justify-between gap-1">
+                <CardContent className="p-5 flex items-center justify-between gap-2">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Technical</p>
-                    <p className="text-4xl font-display font-bold text-primary">{analytics.domainSplit.tech}</p>
+                    <p className="text-xs font-medium text-muted-foreground mb-1">Technical</p>
+                    <p className="text-3xl sm:text-4xl font-display font-bold text-primary">{analytics.domainSplit.tech}</p>
                   </div>
-                  <div className="bg-primary/15 p-4 rounded-full shrink-0">
-                    <Code className="w-6 h-6 text-primary" />
+                  <div className="bg-primary/15 p-3 rounded-full shrink-0">
+                    <Code className="w-5 h-5 text-primary" />
                   </div>
                 </CardContent>
               </Card>
               <Card className="shadow-sm border-border/50">
-                <CardContent className="p-6 flex items-center justify-between gap-1">
+                <CardContent className="p-5 flex items-center justify-between gap-2">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Non-Technical</p>
-                    <p className="text-4xl font-display font-bold text-accent">{analytics.domainSplit.nonTech}</p>
+                    <p className="text-xs font-medium text-muted-foreground mb-1">Non-Technical</p>
+                    <p className="text-3xl sm:text-4xl font-display font-bold text-accent">{analytics.domainSplit.nonTech}</p>
                   </div>
-                  <div className="bg-accent/15 p-4 rounded-full shrink-0">
-                    <Lightbulb className="w-6 h-6 text-accent" />
+                  <div className="bg-accent/15 p-3 rounded-full shrink-0">
+                    <Lightbulb className="w-5 h-5 text-accent" />
                   </div>
                 </CardContent>
               </Card>
             </div>
 
             {/* Charts Row */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <Card className="col-span-1 lg:col-span-2 shadow-sm border-border/50">
-                <CardHeader>
-                  <CardTitle className="font-display text-lg">Registrations Over Time</CardTitle>
+                <CardHeader className="pb-2">
+                  <CardTitle className="font-display text-base sm:text-lg">Registrations Over Time</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[300px] w-full">
+                  <div className="h-[220px] sm:h-[280px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={analytics.dailyRegistrations} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                         <XAxis
                           dataKey="date"
                           stroke="hsl(var(--muted-foreground))"
-                          fontSize={12}
+                          fontSize={11}
                           tickLine={false}
                           axisLine={false}
                           tickFormatter={(val) => format(new Date(val), 'MMM d')}
                         />
-                        <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
+                        <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} tickLine={false} axisLine={false} />
                         <RechartsTooltip
                           cursor={{ fill: 'hsl(var(--muted)/0.5)' }}
                           contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))', backgroundColor: 'hsl(var(--card))', color: 'hsl(var(--foreground))' }}
@@ -131,11 +131,11 @@ export default function Dashboard() {
               </Card>
 
               <Card className="shadow-sm border-border/50">
-                <CardHeader>
-                  <CardTitle className="font-display text-lg">Domain Split</CardTitle>
+                <CardHeader className="pb-2">
+                  <CardTitle className="font-display text-base sm:text-lg">Domain Split</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[300px] w-full flex items-center justify-center">
+                  <div className="h-[220px] sm:h-[280px] w-full flex items-center justify-center">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
@@ -145,8 +145,8 @@ export default function Dashboard() {
                           ]}
                           cx="50%"
                           cy="45%"
-                          innerRadius={60}
-                          outerRadius={80}
+                          innerRadius={55}
+                          outerRadius={75}
                           paddingAngle={5}
                           dataKey="value"
                         >
@@ -170,33 +170,33 @@ export default function Dashboard() {
 
         {/* Data Table Section */}
         <Card className="shadow-sm border-border/50 overflow-hidden">
-          <div className="p-6 border-b border-border bg-card flex flex-col gap-4">
-            <h2 className="text-xl font-bold font-display">Attendee List</h2>
-            <div className="flex flex-wrap gap-3">
+          <div className="p-4 sm:p-6 border-b border-border bg-card flex flex-col gap-3">
+            <h2 className="text-lg sm:text-xl font-bold font-display">Attendee List</h2>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
               {/* Search */}
-              <div className="relative flex-1 min-w-[200px]">
+              <div className="relative flex-1 min-w-0 sm:min-w-[180px]">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search names or emails..."
-                  className="pl-9"
+                  className="pl-9 w-full"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   data-testid="input-search"
                 />
               </div>
               {/* College Filter */}
-              <div className="relative flex-1 min-w-[180px]">
+              <div className="relative flex-1 min-w-0 sm:min-w-[160px]">
                 <Building2 className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground z-10" />
                 <Input
                   placeholder="Filter by college..."
-                  className="pl-9"
+                  className="pl-9 w-full"
                   value={collegeFilter}
                   onChange={(e) => setCollegeFilter(e.target.value)}
                   data-testid="input-college-filter"
                 />
               </div>
               {/* Domain Filter */}
-              <div className="relative flex items-center min-w-[160px]">
+              <div className="relative flex items-center min-w-0 sm:min-w-[150px]">
                 <Filter className="absolute left-2.5 z-10 h-4 w-4 text-muted-foreground pointer-events-none" />
                 <Select value={domainFilter} onValueChange={setDomainFilter}>
                   <SelectTrigger className="pl-9 w-full" data-testid="select-domain-filter">
@@ -216,12 +216,12 @@ export default function Dashboard() {
             <Table>
               <TableHeader className="bg-muted/40">
                 <TableRow>
-                  <TableHead className="w-[120px]">ID</TableHead>
+                  <TableHead className="w-[110px] whitespace-nowrap">Reg ID</TableHead>
                   <TableHead>Attendee</TableHead>
-                  <TableHead>Institution</TableHead>
-                  <TableHead>Year</TableHead>
+                  <TableHead className="hidden sm:table-cell">Institution</TableHead>
+                  <TableHead className="hidden md:table-cell">Year</TableHead>
                   <TableHead>Domain</TableHead>
-                  <TableHead className="text-right">Registered On</TableHead>
+                  <TableHead className="text-right hidden sm:table-cell whitespace-nowrap">Registered On</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -242,26 +242,27 @@ export default function Dashboard() {
                 ) : (
                   registrations.map((reg) => (
                     <TableRow key={reg.id} className="hover:bg-muted/30 transition-colors group" data-testid={`row-registration-${reg.id}`}>
-                      <TableCell className="font-mono text-xs text-muted-foreground group-hover:text-foreground transition-colors">
+                      <TableCell className="font-mono text-xs text-muted-foreground group-hover:text-foreground transition-colors whitespace-nowrap">
                         {reg.registrationId}
                       </TableCell>
                       <TableCell>
-                        <p className="font-medium">{reg.name}</p>
+                        <p className="font-medium text-sm">{reg.name}</p>
                         <p className="text-xs text-muted-foreground">{reg.email}</p>
+                        <p className="text-xs text-muted-foreground sm:hidden mt-0.5">{reg.college}</p>
                       </TableCell>
-                      <TableCell className="max-w-[200px] truncate" title={reg.college}>
+                      <TableCell className="hidden sm:table-cell max-w-[180px] truncate text-sm" title={reg.college}>
                         {reg.college}
                       </TableCell>
-                      <TableCell>{reg.year}</TableCell>
+                      <TableCell className="hidden md:table-cell text-sm">{reg.year}</TableCell>
                       <TableCell>
                         <Badge
                           variant="secondary"
-                          className={reg.domain === 'Tech' ? 'bg-primary/15 text-primary border-0' : 'bg-accent/15 text-accent border-0'}
+                          className={reg.domain === 'Tech' ? 'bg-primary/15 text-primary border-0 whitespace-nowrap' : 'bg-accent/15 text-accent border-0 whitespace-nowrap'}
                         >
                           {reg.domain === 'Tech' ? 'Technical' : 'Non-Technical'}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right text-sm text-muted-foreground whitespace-nowrap">
+                      <TableCell className="text-right text-xs text-muted-foreground whitespace-nowrap hidden sm:table-cell">
                         {format(new Date(reg.createdAt), 'MMM d, yyyy')}
                       </TableCell>
                     </TableRow>

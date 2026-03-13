@@ -26,7 +26,7 @@ export default function Success() {
   if (!data) return null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4 font-sans bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/8 via-background to-background">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4 font-sans">
       <div className="max-w-md w-full animate-in zoom-in-95 duration-500">
         <Card className="shadow-2xl overflow-hidden border-0">
           <div className="bg-gradient-to-br from-primary via-primary/90 to-accent/70 p-8 text-center relative">
