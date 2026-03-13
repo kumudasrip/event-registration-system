@@ -46,7 +46,7 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-lg xl:text-xl text-white/75 max-w-md font-medium leading-relaxed">
-              Join students and professionals at the premier summit. Secure your spot today.
+              Join students and professionals at the premier event. Secure your spot today.
             </p>
           </div>
           <div className="relative z-10 text-sm flex justify-between items-center">
@@ -70,7 +70,7 @@ export default function Home() {
           <div className="w-full max-w-xl animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="mb-6 lg:hidden text-center">
               <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">Secure your spot</h1>
-              <p className="text-muted-foreground mt-2 text-sm sm:text-base">Join the premier summit of 2026.</p>
+              <p className="text-muted-foreground mt-2 text-sm sm:text-base">Join the premier event of 2026.</p>
             </div>
             <RegistrationForm />
           </div>
