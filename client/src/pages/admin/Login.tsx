@@ -60,7 +60,7 @@ export default function Login() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="admin@zenith.com" {...field} data-testid="input-email" />
+                        <Input {...field} data-testid="input-email" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

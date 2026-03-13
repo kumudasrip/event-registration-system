@@ -43,13 +43,13 @@ export async function registerRoutes(
   // Seed admin user if it doesn't exist
   async function seedAdmin() {
     try {
-      const adminExists = await storage.getUserByEmail('admin@example.com');
+      const adminExists = await storage.getUserByEmail('adminzen@event.com');
       if (!adminExists) {
         await storage.createUser({
-          email: 'admin@example.com',
-          password: hashPassword('admin123')
+          email: 'adminzen@event.com',
+          password: hashPassword('admin123zen')
         });
-        console.log('Seed admin user created: admin@example.com / admin123');
+        console.log('Seed admin user created: adminzen@event.com / admin123zen');
       }
     } catch (err) {
       console.error('Failed to seed admin:', err);
