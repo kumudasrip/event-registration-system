@@ -31,17 +31,17 @@ export default function Home() {
               alt="Conference Event"
               className="w-full h-full object-cover opacity-40 mix-blend-overlay"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-yellow-900/80 via-purple-900/40 to-transparent mix-blend-multiply" />
+            <div className="absolute inset-0 bg-gradient-to-t from-purple-950/80 via-purple-900/40 to-transparent mix-blend-multiply" />
             <div className="absolute inset-0 bg-zinc-950/50" />
           </div>
           <div className="relative z-10 text-white mt-8">
-            <div className="inline-flex items-center rounded-full border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-sm font-medium backdrop-blur-md mb-6">
-              <span className="flex h-2 w-2 rounded-full bg-yellow-400 mr-2"></span>
+            <div className="inline-flex items-center rounded-full border border-purple-400/30 bg-purple-400/10 px-3 py-1 text-sm font-medium backdrop-blur-md mb-6">
+              <span className="flex h-2 w-2 rounded-full bg-purple-400 mr-2"></span>
               Registrations Open
             </div>
             <h1 className="font-display text-5xl xl:text-6xl font-bold tracking-tight mb-6 leading-tight">
               Welcome to <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-violet-400">
                 Zenith 2026
               </span>
             </h1>
