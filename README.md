@@ -1,6 +1,6 @@
 # Full Stack Event Registration System — Zenith 2026
 
-## 1. Project Overview
+## Project Overview
 
 Zenith 2026 is a full-stack event registration system built to manage participant registrations for a college-level event. The system provides a public-facing registration portal where attendees can sign up, and a secure admin dashboard where organizers can monitor registrations, apply filters, and view real-time analytics.
 
@@ -15,7 +15,7 @@ Zenith 2026 is a full-stack event registration system built to manage participan
 
 ---
 
-## 2. Features
+## Features
 
 ### User Features
 - Register for the event using a clean, responsive form
@@ -44,7 +44,7 @@ Zenith 2026 is a full-stack event registration system built to manage participan
 
 ---
 
-## 3. Tech Stack
+## Tech Stack
 
 ### Frontend
 | Technology | Purpose |
@@ -52,7 +52,6 @@ Zenith 2026 is a full-stack event registration system built to manage participan
 | React 18 (Vite) | UI framework and build tooling |
 | TypeScript | Static typing across all components |
 | Tailwind CSS | Utility-first styling |
-| shadcn/ui | Accessible component primitives (forms, cards, tables, badges) |
 | TanStack Query (React Query v5) | Server state management, caching, and mutations |
 | React Hook Form + Zod | Form state and schema-driven validation |
 | Recharts | Analytics charts (bar chart, pie chart) |
@@ -84,7 +83,7 @@ Zenith 2026 is a full-stack event registration system built to manage participan
 
 ---
 
-## 4. System Architecture
+## System Architecture
 
 The application follows a classic three-tier architecture: a React SPA for the frontend, an Express REST API for the backend, and PostgreSQL as the database. Both frontend and backend share types through a `shared/` directory, making the API contract type-safe end-to-end.
 
@@ -119,54 +118,54 @@ Shared Layer (shared/)
 
 ---
 
-## 5. Folder Structure
+## Folder Structure
 
 ```
 zenith-2026/
-├── client/                     # React frontend (Vite)
+├── client/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── AdminNav.tsx        # Admin header with navigation and logout
-│   │   │   ├── RegistrationForm.tsx # Public registration form component
-│   │   │   └── ui/                 # shadcn/ui component primitives
+│   │   │   ├── AdminNav.tsx
+│   │   │   ├── RegistrationForm.tsx
+│   │   │   └── ui/
 │   │   ├── hooks/
-│   │   │   ├── use-auth.ts         # JWT token storage, login/logout mutations
-│   │   │   └── use-registrations.ts # TanStack Query hooks for registration data
+│   │   │   ├── use-auth.ts
+│   │   │   └── use-registrations.ts
 │   │   ├── pages/
-│   │   │   ├── Home.tsx            # Public registration page with hero panel
-│   │   │   ├── Success.tsx         # Confirmation page after registration
+│   │   │   ├── Home.tsx
+│   │   │   ├── Success.tsx
 │   │   │   └── admin/
-│   │   │       ├── Login.tsx       # Admin authentication page
-│   │   │       └── Dashboard.tsx   # Registrations table + analytics
+│   │   │       ├── Login.tsx
+│   │   │       └── Dashboard.tsx
 │   │   ├── lib/
-│   │   │   ├── queryClient.ts      # TanStack Query client configuration
-│   │   │   └── utils.ts            # Tailwind class merge utility
-│   │   ├── App.tsx                 # Route declarations (wouter)
-│   │   ├── index.css               # Tailwind directives + CSS custom properties
-│   │   └── main.tsx                # React DOM entry point
+│   │   │   ├── queryClient.ts
+│   │   │   └── utils.ts
+│   │   ├── App.tsx
+│   │   ├── index.css
+│   │   └── main.tsx
 │   └── index.html
 │
-├── server/                     # Express backend
-│   ├── db.ts                   # Drizzle + PostgreSQL pool initialisation
-│   ├── storage.ts              # DatabaseStorage class (all DB operations)
-│   ├── routes.ts               # Route handlers, auth middleware, seed logic
-│   ├── index.ts                # Express app bootstrap
-│   └── vite.ts                 # Vite dev middleware integration
+├── server/
+│   ├── db.ts
+│   ├── storage.ts
+│   ├── routes.ts
+│   ├── index.ts
+│   └── vite.ts
 │
-├── shared/                     # Shared between client and server
-│   ├── schema.ts               # Drizzle table definitions + TypeScript types
-│   └── routes.ts               # Zod API contract (paths, inputs, responses)
+├── shared/
+│   ├── schema.ts
+│   └── routes.ts
 │
-├── drizzle.config.ts           # Drizzle kit configuration
-├── tailwind.config.ts          # Tailwind theme (colours, fonts, radius)
-├── vite.config.ts              # Vite build configuration
-├── tsconfig.json               # TypeScript project settings
+├── drizzle.config.ts
+├── tailwind.config.ts
+├── vite.config.ts
+├── tsconfig.json
 └── package.json
 ```
 
 ---
 
-## 6. Database Schema
+## Database Schema
 
 The database has two tables: `users` for admin accounts and `registrations` for event attendees.
 
@@ -201,7 +200,7 @@ The database has two tables: `users` for admin accounts and `registrations` for 
 
 ---
 
-## 7. API Endpoints
+## API Endpoints
 
 All endpoints are prefixed with `/api`. Admin-protected endpoints require an `Authorization: Bearer <token>` header.
 
@@ -214,112 +213,7 @@ All endpoints are prefixed with `/api`. Admin-protected endpoints require an `Au
 
 ---
 
-### `POST /api/admin/login`
-
-**Request body:**
-```json
-{
-  "email": "adminzen@event.com",
-  "password": "admin123zen"
-}
-```
-
-**Success response `200`:**
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-```
-
-**Error response `401`:**
-```json
-{ "message": "Invalid credentials" }
-```
-
----
-
-### `POST /api/register`
-
-**Request body:**
-```json
-{
-  "name": "Priya Sharma",
-  "email": "priya@college.edu",
-  "college": "IIT Madras",
-  "year": "3rd Year",
-  "domain": "Tech",
-  "interestAnswer": "I want to explore AI and ML workshops."
-}
-```
-
-**Success response `201`:**
-```json
-{
-  "id": 1,
-  "registrationId": "REG-A3F19C2E",
-  "name": "Priya Sharma",
-  "email": "priya@college.edu",
-  "college": "IIT Madras",
-  "year": "3rd Year",
-  "domain": "Tech",
-  "interestAnswer": "I want to explore AI and ML workshops.",
-  "createdAt": "2026-03-13T09:00:00.000Z"
-}
-```
-
-**Error — duplicate email `400`:**
-```json
-{ "message": "Email already registered", "field": "email" }
-```
-
-**Error — validation failure `400`:**
-```json
-{ "message": "Invalid email", "field": "email" }
-```
-
----
-
-### `GET /api/registrations`
-
-**Headers:** `Authorization: Bearer <token>`
-
-**Query parameters (all optional):**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `search` | string | Partial match on name, email, or registration ID |
-| `college` | string | Partial case-insensitive match on college name |
-| `domain` | `Tech` \| `Non-Tech` | Exact match on domain |
-
-**Example:** `GET /api/registrations?search=priya&domain=Tech`
-
-**Success response `200`:** Array of registration objects (same shape as the `POST /api/register` response).
-
----
-
-### `GET /api/analytics`
-
-**Headers:** `Authorization: Bearer <token>`
-
-**Success response `200`:**
-```json
-{
-  "totalRegistrations": 42,
-  "domainSplit": {
-    "tech": 28,
-    "nonTech": 14
-  },
-  "dailyRegistrations": [
-    { "date": "2026-03-10", "count": 5 },
-    { "date": "2026-03-11", "count": 12 },
-    { "date": "2026-03-12", "count": 25 }
-  ]
-}
-```
-
----
-
-## 8. State Management Approach
+## State Management Approach
 
 State is managed using a layered approach:
 
@@ -333,7 +227,7 @@ State is managed using a layered approach:
 
 ---
 
-## 9. Error Handling Strategy
+## Error Handling Strategy
 
 **Client-side (form validation):**
 - Zod schemas from `shared/routes.ts` are used directly with `zodResolver` in React Hook Form
@@ -346,19 +240,9 @@ State is managed using a layered approach:
 - The database has a UNIQUE constraint on `email` as a final safety net
 - All catch blocks return appropriate HTTP status codes — never silent failures
 
-**HTTP status codes used:**
-
-| Code | Meaning | When used |
-|------|---------|-----------|
-| `200` | OK | Successful GET or login |
-| `201` | Created | Successful registration |
-| `400` | Bad Request | Validation failure or duplicate email |
-| `401` | Unauthorised | Missing/invalid/expired JWT |
-| `500` | Internal Server Error | Unexpected server-side failure |
-
 ---
 
-## 10. Authentication
+## Authentication
 
 The system uses **stateless JWT authentication** for all admin routes.
 
@@ -379,24 +263,22 @@ The system uses **stateless JWT authentication** for all admin routes.
 
 ---
 
-## 11. Scalability Considerations
+## Scalability Considerations
 
-| Concern | Current approach | How it scales |
-|---------|-----------------|---------------|
-| **Database** | PostgreSQL with Drizzle ORM | PostgreSQL handles millions of rows efficiently. Indexes can be added on `email`, `domain`, and `created_at` as load grows. |
-| **API filtering** | `ilike` + `and()` in Drizzle | Query composition keeps filtering at the DB layer — the server never loads all rows into memory before filtering. |
-| **Auth** | Stateless JWT | No session store needed. Horizontally scalable — any server instance can verify any token without shared state. |
-| **Schema evolution** | Drizzle + `db:push` | Adding fields or tables is a one-command operation. Drizzle generates and applies safe migrations. |
-| **Frontend** | TanStack Query cache | API responses are cached client-side — repeated navigations to the dashboard don't re-fetch unless data changes. |
-| **Separation of concerns** | `shared/`, `server/`, `client/` | Frontend and backend can be deployed independently (e.g. CDN + separate API server) without any code changes. |
+| Area | Approach |
+|-----|-----|
+| Database | PostgreSQL supports large datasets and indexing for faster queries. |
+| Authentication | JWT-based stateless authentication allows horizontal scaling without session storage. |
+| API Design | Filtering is performed at the database level to avoid loading unnecessary data into memory. |
+| Architecture | Frontend, backend, and shared layers are separated, allowing independent scaling and deployment. |
 
 ---
 
-## 12. How to Run the Project Locally
+## How to Run the Project Locally
 
 ### Prerequisites
 - Node.js 20+
-- PostgreSQL database (or use the Replit built-in database)
+- PostgreSQL database 
 
 ### Clone and install
 
@@ -442,7 +324,7 @@ The admin user is seeded automatically on startup if it does not already exist:
 
 ---
 
-## 13. Deployment
+## Deployment
 
 The project is structured as a unified full-stack application where Vite's built output is served by Express in production.
 
@@ -468,7 +350,7 @@ The Express server serves the compiled React app as static files and handles all
 
 ---
 
-## 14. API Testing with Postman
+## API Testing with Postman
 
 ### Setup
 
@@ -515,15 +397,11 @@ The Express server serves the compiled React app as static files and handles all
 
 ---
 
-## 15. Postman Collection
+## Postman Collection
 
-You can import the following collection directly into Postman to test all API endpoints immediately.
+A Postman collection is included below for testing all API endpoints.
 
-**Steps:**
-1. Copy the JSON below
-2. Open Postman → click **Import** (top-left)
-3. Select **Raw text**, paste the JSON, then click **Continue → Import**
-4. After import, set the collection variable `token` to the value returned by the **Admin Login** request before calling protected endpoints
+Import the JSON into Postman and use the token returned from `POST /api/admin/login` for authenticated requests.
 
 ```json
 {
@@ -879,16 +757,11 @@ You can import the following collection directly into Postman to test all API en
 
 ---
 
-## 16. What This Project Demonstrates
+## What This Project Demonstrates
 
-| Engineering Skill | How it's demonstrated |
-|---|---|
-| **Clean separation of concerns** | Frontend, backend, and shared types live in isolated directories. No business logic leaks into components; no presentation logic lives in route handlers. |
-| **Type-safe API contract** | `shared/routes.ts` defines Zod schemas for every endpoint. Both sides call `.parse()` on the same schema — no type drift between client and server. |
-| **Modular backend design** | `storage.ts` encapsulates all database access behind an interface (`IStorage`). Routes are thin — they validate input, call storage, and return responses. |
-| **REST API design** | Correct HTTP verbs (`GET`, `POST`), correct status codes (`200`, `201`, `400`, `401`), and consistent JSON error envelopes. |
-| **Database schema design** | Tables are normalised (3NF). Unique constraints are applied at the DB level as a safety net. `registration_id` is separate from the internal `id` for clean public-facing identifiers. |
-| **Security** | Passwords are hashed with scrypt + random salt. JWTs are signed with an environment secret, expire in 24 hours, and are verified on every protected request. Timing-safe comparison prevents timing attacks. |
-| **Validation and error handling** | Zod validates both client forms and server request bodies using the same schema. Duplicate emails are caught at the application layer before the DB unique constraint triggers. All errors return structured JSON with the failing field name. |
-| **Real-time UI** | TanStack Query keeps the dashboard in sync with the server — mutations invalidate relevant query keys so data refreshes automatically. |
-| **Responsive design** | The UI adapts cleanly from mobile (320px) to desktop (1440px+) using Tailwind's responsive utility classes and conditional column visibility in the data table. |
+• Clean separation of frontend, backend, and shared layers  
+• RESTful API design with proper HTTP status codes  
+• Database schema design and normalization  
+• Secure JWT-based authentication  
+• Robust validation and error handling  
+• Scalable full-stack architecture
