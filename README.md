@@ -515,7 +515,371 @@ The Express server serves the compiled React app as static files and handles all
 
 ---
 
-## 15. What This Project Demonstrates
+## 15. Postman Collection
+
+You can import the following collection directly into Postman to test all API endpoints immediately.
+
+**Steps:**
+1. Copy the JSON below
+2. Open Postman → click **Import** (top-left)
+3. Select **Raw text**, paste the JSON, then click **Continue → Import**
+4. After import, set the collection variable `token` to the value returned by the **Admin Login** request before calling protected endpoints
+
+```json
+{
+  "info": {
+    "name": "Zenith 2026 — Event Registration API",
+    "_postman_id": "zenith-2026-collection",
+    "description": "Complete API collection for the Zenith 2026 Full Stack Event Registration System. Covers public registration, admin authentication, filtered attendee listing, and analytics.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string",
+      "description": "JWT token returned by POST /api/admin/login. Paste the value here after logging in."
+    }
+  ],
+  "item": [
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Register Attendee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "register"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Priya Sharma\",\n  \"email\": \"priya.sharma@college.edu\",\n  \"college\": \"IIT Madras\",\n  \"year\": \"3rd Year\",\n  \"domain\": \"Tech\",\n  \"interestAnswer\": \"I am deeply interested in AI/ML and want to attend the workshops on neural networks.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Register a new attendee for Zenith 2026. Returns a unique registrationId on success. Returns 400 if the email is already registered or any required field is missing."
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "body": "{\n  \"id\": 1,\n  \"registrationId\": \"REG-A3F19C2E\",\n  \"name\": \"Priya Sharma\",\n  \"email\": \"priya.sharma@college.edu\",\n  \"college\": \"IIT Madras\",\n  \"year\": \"3rd Year\",\n  \"domain\": \"Tech\",\n  \"interestAnswer\": \"I am deeply interested in AI/ML and want to attend the workshops on neural networks.\",\n  \"createdAt\": \"2026-03-13T09:00:00.000Z\"\n}"
+            },
+            {
+              "name": "400 Duplicate Email",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "{\n  \"message\": \"Email already registered\",\n  \"field\": \"email\"\n}"
+            },
+            {
+              "name": "400 Validation Error",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "{\n  \"message\": \"Invalid email\",\n  \"field\": \"email\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Register Attendee — Non-Tech Domain",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "register"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rahul Verma\",\n  \"email\": \"rahul.verma@university.ac.in\",\n  \"college\": \"Delhi University\",\n  \"year\": \"2nd Year\",\n  \"domain\": \"Non-Tech\",\n  \"interestAnswer\": \"I am passionate about entrepreneurship and product management.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Register a Non-Tech domain attendee. The domain field only accepts 'Tech' or 'Non-Tech'."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin — Auth",
+      "item": [
+        {
+          "name": "Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "  pm.collectionVariables.set('token', jsonData.token);",
+                  "  console.log('Token saved to collection variable: token');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"adminzen@event.com\",\n  \"password\": \"admin123zen\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Authenticate as admin. Returns a signed JWT valid for 24 hours. The test script automatically saves the token to the 'token' collection variable so protected requests work without manual copy-paste."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbnplbkBldmVudC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6MTcwMDA4NjQwMH0.example_signature\"\n}"
+            },
+            {
+              "name": "401 Invalid Credentials",
+              "status": "Unauthorized",
+              "code": 401,
+              "body": "{\n  \"message\": \"Invalid credentials\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin — Registrations",
+      "item": [
+        {
+          "name": "Get All Registrations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/registrations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "registrations"]
+            },
+            "description": "Returns the complete list of all registered attendees. Requires a valid JWT in the Authorization header."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"id\": 1,\n    \"registrationId\": \"REG-A3F19C2E\",\n    \"name\": \"Priya Sharma\",\n    \"email\": \"priya.sharma@college.edu\",\n    \"college\": \"IIT Madras\",\n    \"year\": \"3rd Year\",\n    \"domain\": \"Tech\",\n    \"interestAnswer\": \"I am deeply interested in AI/ML.\",\n    \"createdAt\": \"2026-03-13T09:00:00.000Z\"\n  }\n]"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "body": "{\n  \"message\": \"Unauthorized\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Registrations — Filter by Domain",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/registrations?domain=Tech",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "registrations"],
+              "query": [
+                {
+                  "key": "domain",
+                  "value": "Tech",
+                  "description": "Filter by domain. Accepted values: 'Tech' or 'Non-Tech'"
+                }
+              ]
+            },
+            "description": "Returns only registrations matching the specified domain. domain must be exactly 'Tech' or 'Non-Tech'."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Registrations — Search by Name or Email",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/registrations?search=priya",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "registrations"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "priya",
+                  "description": "Partial text match against name, email, or registrationId"
+                }
+              ]
+            },
+            "description": "Searches registrations by partial name, email, or registration ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Registrations — Filter by College",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/registrations?college=IIT",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "registrations"],
+              "query": [
+                {
+                  "key": "college",
+                  "value": "IIT",
+                  "description": "Partial case-insensitive match on college name"
+                }
+              ]
+            },
+            "description": "Filters registrations by college name using a partial case-insensitive match."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Registrations — Combined Filters",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/registrations?search=sharma&college=IIT&domain=Tech",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "registrations"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "sharma"
+                },
+                {
+                  "key": "college",
+                  "value": "IIT"
+                },
+                {
+                  "key": "domain",
+                  "value": "Tech"
+                }
+              ]
+            },
+            "description": "Demonstrates using all three filters simultaneously: search, college, and domain."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin — Analytics",
+      "item": [
+        {
+          "name": "Get Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/analytics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "analytics"]
+            },
+            "description": "Returns aggregated analytics: total registrations, Tech vs Non-Tech domain split, and a day-by-day registration count array (used to render the bar chart in the admin dashboard)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"totalRegistrations\": 42,\n  \"domainSplit\": {\n    \"tech\": 28,\n    \"nonTech\": 14\n  },\n  \"dailyRegistrations\": [\n    { \"date\": \"2026-03-10\", \"count\": 5 },\n    { \"date\": \"2026-03-11\", \"count\": 12 },\n    { \"date\": \"2026-03-12\", \"count\": 25 }\n  ]\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "body": "{\n  \"message\": \"Unauthorized\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 16. What This Project Demonstrates
 
 | Engineering Skill | How it's demonstrated |
 |---|---|
