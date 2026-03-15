@@ -283,8 +283,8 @@ The system uses **stateless JWT authentication** for all admin routes.
 ### Clone and install
 
 ```bash
-git clone <repository-url>
-cd zenith-2026
+git clone https://github.com/kumudasrip/event-registration-system.git
+cd event-registration-system
 npm install
 ```
 
@@ -347,53 +347,6 @@ The Express server serves the compiled React app as static files and handles all
 | `DATABASE_URL` | PostgreSQL connection string |
 | `SESSION_SECRET` | Secret key for JWT signing (use a long random string) |
 | `NODE_ENV` | Set to `production` |
-
----
-
-## API Testing with Postman
-
-### Setup
-
-1. Open Postman and create a new collection named **Zenith 2026 API**
-2. Set a collection variable: `baseUrl = http://localhost:5000`
-
-### Step 1 — Register a user (no auth needed)
-- **Method:** `POST`
-- **URL:** `{{baseUrl}}/api/register`
-- **Body (JSON):**
-```json
-{
-  "name": "Test User",
-  "email": "test@college.edu",
-  "college": "Sample University",
-  "year": "2nd Year",
-  "domain": "Tech",
-  "interestAnswer": "Exploring new tech."
-}
-```
-
-### Step 2 — Admin login (get token)
-- **Method:** `POST`
-- **URL:** `{{baseUrl}}/api/admin/login`
-- **Body (JSON):**
-```json
-{
-  "email": "adminzen@event.com",
-  "password": "admin123zen"
-}
-```
-- Copy the `token` from the response and set it as a collection variable: `token`
-
-### Step 3 — Get all registrations (protected)
-- **Method:** `GET`
-- **URL:** `{{baseUrl}}/api/registrations`
-- **Header:** `Authorization: Bearer {{token}}`
-- Add optional query params: `search`, `college`, `domain`
-
-### Step 4 — Get analytics (protected)
-- **Method:** `GET`
-- **URL:** `{{baseUrl}}/api/analytics`
-- **Header:** `Authorization: Bearer {{token}}`
 
 ---
 
